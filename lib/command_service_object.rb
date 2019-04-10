@@ -1,4 +1,4 @@
-require "command_service_object/version"
+require 'command_service_object/version'
 
 module CommandServiceObject
   class Error < StandardError; end
