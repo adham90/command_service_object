@@ -19,7 +19,7 @@ class ServiceGenerator < Rails::Generators::NamedBase
   def create_base_dir
     return if File.exist?('app/services')
 
-    directory 'services', 'app/services'
+    directory 'base', 'app/services'
   end
 
   def create_service_dir

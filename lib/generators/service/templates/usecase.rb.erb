@@ -7,10 +7,17 @@ module <%= service_name.classify %>::Usecases
     # methods for Business logic.
     #
     def call
-      replace_me
+      begin
+        replace_me
+      rescue => e
+        rollback
+        raise e
+      end
     end
 
     private
+
+      def rollback;end
 
       def replace_me
         # [business logic]
