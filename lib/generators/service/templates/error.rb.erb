@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module <%= service_name.classify %>::Errors
-  class <%= @usecase.classify %> < StandardError
+  class <%= @error %> < StandardError
     def initialize(msg = "custom message")
       super(msg)
     end
