@@ -38,7 +38,62 @@ create  app/services/user_service/commands/update.rb
 create  app/services/user_service/usecases/delete.rb
 create  app/services/user_service/commands/delete.rb
 ```
+then you can edit command params
+> you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
+```ruby
+# app/services/user_service/commands/create.rb
+module UserService::Commands
+  class Create
+    include Virtus.model
 
+    attribute :name, String
+    attribute :phone, String
+    attribute :age, Integer
+  end
+end
+```
+and then add your business logic
+```ruby
+# app/services/user_service/usecases/create.rb
+module UserService::Usecases
+  class Create < ServiceBase
+    def call
+        # your business logic goes here
+        # keep call method clean by using private methods for Business logic
+        do_something
+        do_another_something
+    end
+
+    private
+
+    def do_something
+        # Business logic
+        # Don't catch errors ApplicationService will do that for you
+        raise Errors::CustomeError if ERROR
+    end
+
+    def do_another_something
+        # another business logic
+    end
+  end
+end
+```
+
+usage from controller
+```ruby
+class UsersController < ApplicationController
+  def create
+    cmd    = UserService::Commands::Create.new(user_params)
+    result = ApplicationService.call(cmd)
+
+    if result.ok?
+      render json: result.value!.as_json, status: 201
+    else
+      render json: { message: result.error }, status: 422
+    end
+  end
+end
+```
 
 ## Development
 
