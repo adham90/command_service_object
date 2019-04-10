@@ -8,9 +8,9 @@ class ServiceGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('templates', __dir__)
 
   argument :usecases, type: :array, default: [], banner: 'usecase usecase'
-  class_option :skip_command, type: :boolean, default: false,
+  class_option :skip_command, type: :boolean, default: false, aliases: '-C',
                               desc: 'skip command file generation'
-  class_option :skip_error, type: :boolean, default: false,
+  class_option :skip_error, type: :boolean, default: false, aliases: '-E',
                             desc: 'skip error file generation'
 
   def create_base_dir
