@@ -8,16 +8,18 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Adham EL-Deeb']
   spec.email         = ['adham.eldeeb90@gmail.com']
 
-  spec.summary       = 'Create command service object'
-  spec.description   = 'service command object'
+  spec.summary       = 'Rails Generator for command service object.'
+  spec.description   = 'command_service_object gem helps you to generate'\
+    ' service and command objects using rails generator.'
   spec.homepage      = 'https://github.com/adham90/command_service_object'
   spec.license       = 'MIT'
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files         = Dir.chdir(File.expand_path(__dir__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+    `git ls-files -z`.split("\x0").reject do |f|
+      f.match(%r{^(test|spec|features)/})
+    end
   end
+
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
@@ -26,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'thor', '~> 0.20.3'
+  spec.add_runtime_dependency 'virtus', '~> 1.0.5'
 end
