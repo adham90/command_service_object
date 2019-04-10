@@ -1,8 +1,6 @@
 # CommandServiceObject
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/command_service_object`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Rails Generator for command service object.
 
 ## Installation
 
@@ -22,7 +20,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ rails g service [service_name] [usecases usecases]
+### Example
+
+    $ rails g service user create update delete
+output
+
+```bash
+create  app/services/user_service
+create  app/services/user_service/usecases
+create  app/services/user_service/commands
+create  app/services/user_service/errors
+create  app/services/user_service/usecases/create.rb
+create  app/services/user_service/commands/create.rb
+create  app/services/user_service/usecases/update.rb
+create  app/services/user_service/commands/update.rb
+create  app/services/user_service/usecases/delete.rb
+create  app/services/user_service/commands/delete.rb
+```
+
 
 ## Development
 
@@ -32,7 +48,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/command_service_object. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/adham90/command_service_object. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +56,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the CommandServiceObject project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/command_service_object/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the CommandServiceObject project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/adham90/command_service_object/blob/master/CODE_OF_CONDUCT.md).
