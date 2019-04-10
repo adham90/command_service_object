@@ -25,9 +25,11 @@ class ServiceGenerator < Rails::Generators::NamedBase
       @usecase = usecase
       u_path = "app/services/#{service_name}/usecases/#{usecase.underscore}.rb"
       c_path = "app/services/#{service_name}/commands/#{usecase.underscore}.rb"
+      e_path = "app/services/#{service_name}/errors/#{usecase.underscore}.rb"
 
       template 'usecase.rb.erb', u_path
       template 'command.rb.erb', c_path
+      template 'error.rb.erb',   e_path
     end
   end
 
