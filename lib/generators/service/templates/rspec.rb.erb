@@ -1,1 +1,18 @@
 # frozen_string_literal: true
+
+require 'rails_helper'
+
+describe <%= service_name.classify %>::Usecases::<%= @usecase %> do
+  let(:cmd) { <%= service_name.classify %>::Usecases::<%= @usecase %>.new(cmd_params) }
+  let(:cmd_default_params) {{ name: 'test_name' }}
+
+  context "when success" do
+    let(:cmd_params) { cmd_default_params.merge!({ name: 'valid_name' }) }
+    let!(:result) { ApplicationService.call(cmd) }
+  end
+
+  context 'when failure' do
+    let(:cmd_params) { cmd_default_params.merge!({ name: 'invalid_name' }) }
+    let!(:result) { ApplicationService.call(cmd) }
+  end
+end
