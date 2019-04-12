@@ -22,6 +22,18 @@ class ServiceGenerator < Rails::Generators::NamedBase
     directory 'base', 'app/services'
   end
 
+  def append_to_application_controller
+    application_controller_path = 'app/controllers/application_controller.rb'
+
+    line = File.readlines(application_controller_path).select do |li|
+      li =~ /class ApplicationController </
+    end.first
+
+    inject_into_file application_controller_path, after: line do
+      "  include ServiceControllerHelper\n"
+    end
+  end
+
   def create_service_dir
     return if File.exist?("app/services/#{service_name}")
 
