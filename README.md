@@ -2,6 +2,22 @@
 
 Rails Generator for command service object.
 
+### Theory:
+[Command Design Pattern](https://en.wikipedia.org/wiki/Command_pattern) consists of `Command Object` and `Service Object` (Executor), Command object is responsible for containing `Client` requests and run input validations on it to ensure that the request is valid and set default values, then `Service Object` applies the business logic on that command.
+
+### Implementation:
+Service consists of several objects { `Command Object` ` Usecase Object`   And `Error Object` (business logic error) }.
+
+- **Command Object:** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
+- **Usecase Object:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
+- **Error Object:** business logic errors existed user `errors` dir inside the service dir.
+
+#### Result Object:
+In case of  successful or failure `ApplicationService` the responsible object for all services will return `service_result` object this object contain `value!` method  containing successful call result, and `errors` method containing failure `errors` objects.
+
+> You can check if the result successful or not by using `ok?` method. 
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
