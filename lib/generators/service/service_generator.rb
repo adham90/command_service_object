@@ -5,6 +5,7 @@ require 'rails/generators/model_helpers'
 
 class ServiceGenerator < Rails::Generators::NamedBase
   include Rails::Generators::ModelHelpers
+  include CommandServiceObject::ServiceModelHelper
 
   source_root File.expand_path('templates', __dir__)
 
@@ -54,6 +55,7 @@ class ServiceGenerator < Rails::Generators::NamedBase
 
   def generate_command(command)
     @command = command.classify
+    @model_attributes = model_attributes
     path = "app/services/#{service_name}/commands/#{command.underscore}.rb"
     template 'command.rb.erb', path unless options.skip_command?
   end

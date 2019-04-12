@@ -6,6 +6,8 @@ module <%= service_name.classify %>::Commands
     # https://github.com/solnic/virtus
     include Virtus.model
 
-    attribute :REPLACE_ME, String
+    <%- @model_attributes.each do |k,v| -%>
+    # attribute :<%=k%>, <%=v%>
+    <%- end -%>
   end
 end
