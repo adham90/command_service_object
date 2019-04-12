@@ -40,19 +40,24 @@ Or install it yourself as:
 ### Example
 
     $ rails g service user create update delete
-output
+creates the following files:
 
-```bash
-create  app/services/user_service
-create  app/services/user_service/usecases
-create  app/services/user_service/commands
-create  app/services/user_service/errors
-create  app/services/user_service/usecases/create.rb
-create  app/services/user_service/commands/create.rb
-create  app/services/user_service/usecases/update.rb
-create  app/services/user_service/commands/update.rb
-create  app/services/user_service/usecases/delete.rb
-create  app/services/user_service/commands/delete.rb
+
+``` bash
+├── 📂app
+│   ├── 📂services
+│   │   ├── 📂user_service
+│   │   │   ├── 📂usecases
+│   │   │   │   ├── 📂usecases
+│   │   │   │   │   ├── create.rb
+│   │   │   │   │   ├── update.rb
+│   │   │   │   │   └── delete.rb
+│   │   │   │   ├── 📂commands
+│   │   │   │   │   ├── create.rb
+│   │   │   │   │   ├── update.rb
+│   │   │   │   │   └── delete.rb
+│   │   │   │   └── 📂errors
+└────────────────────────────
 ```
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
