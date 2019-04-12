@@ -22,15 +22,9 @@ class ServiceGenerator < Rails::Generators::NamedBase
     directory 'base', 'app/services'
   end
 
-  # def add_controller_helper_to_application_controller
-  #   ApplicationController.class_eval do
-  #     include ServiceControllerHelper
-  #   end
-  # end
-
-  # def add_virtus_gem_to_gemfile
-  #   gem 'virtus'
-  # end
+  def add_virtus_gem_to_gemfile
+    gem 'virtus'
+  end
 
   def create_service_dir
     return if File.exist?("app/services/#{service_name}")
