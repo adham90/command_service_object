@@ -43,16 +43,24 @@ Or install it yourself as:
 output
 
 ```bash
-create  app/services/user_service
-create  app/services/user_service/usecases
-create  app/services/user_service/commands
-create  app/services/user_service/errors
-create  app/services/user_service/usecases/create.rb
-create  app/services/user_service/commands/create.rb
-create  app/services/user_service/usecases/update.rb
-create  app/services/user_service/commands/update.rb
-create  app/services/user_service/usecases/delete.rb
-create  app/services/user_service/commands/delete.rb
+app/services/
+├── application_service.rb
+├── service_base.rb
+├── service_controller_helper.rb
+├── service_result.rb
+└── user_service
+    ├── commands
+    │   ├── create.rb
+    │   ├── delete.rb
+    │   └── update.rb
+    ├── errors
+    │   ├── create.rb
+    │   ├── delete.rb
+    │   └── update.rb
+    └── usecases
+        ├── create.rb
+        ├── delete.rb
+        └── update.rb
 ```
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
