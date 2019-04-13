@@ -39,75 +39,77 @@ Or install it yourself as:
     $ rails g service [service_name] [usecases usecases]
 ### Example
 
-    $ rails g service user create update delete
+    $ rails g service authentication login
 output
 
 ```bash
 app/services/
 ├── application_service.rb
+├── authentication_service
+│   ├── commands
+│   │   └── login.rb
+│   ├── errors
+│   └── usecases
+│       └── login.rb
 ├── service_base.rb
 ├── service_controller_helper.rb
-├── service_result.rb
-└── user_service
-    ├── commands
-    │   ├── create.rb
-    │   ├── delete.rb
-    │   └── update.rb
-    ├── errors
-    │   ├── create.rb
-    │   ├── delete.rb
-    │   └── update.rb
-    └── usecases
-        ├── create.rb
-        ├── delete.rb
-        └── update.rb
+└── service_result.rb
 ```
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
 ```ruby
-# app/services/user_service/commands/create.rb
-module UserService::Commands
-  class Create
-    include Virtus.model
+# app/services/authentication_service/commands/login.rb
+# frozen_string_literal: true
 
-    attribute :name, String
-    attribute :phone, String
-    attribute :age, Integer
+module AuthenticationService::Commands
+  class Login
+    # You can read Virtus gem doc for more info.
+    # https://github.com/solnic/virtus
+    include Virtus.model
+    include ActiveModel::Validations
+
+    # Attributes
+    attribute :REPLACE_ME, String
+
+    # Validations
+    validates :REPLACE_ME, presence: true
   end
 end
 ```
 and then add your business logic
 ```ruby
-# app/services/user_service/usecases/create.rb
-module UserService::Usecases
-  class Create < ServiceBase
+# app/services/authentication_service/usecases/login.rb
+# frozen_string_literal: true
+
+module AuthenticationService::Usecases
+  class Login < ServiceBase
+    #
+    # Your business logic goes here, keep [call] method clean by using private
+    # methods for Business logic.
+    #
     def call
-        # your business logic goes here
-        # keep call method clean by using private methods for Business logic
-        do_something
-        do_another_something
+      replace_me
     end
 
     private
 
-    def do_something
-        # Business logic
-        # Don't catch errors ApplicationService will do that for you
-        raise Errors::CustomeError if ERROR
-    end
+      # This method will run if call method raise error
+      def rollback
+        # rollback logic
+      end
 
-    def do_another_something
-        # another business logic
-    end
+      def replace_me
+        # [business logic]
+      end
   end
 end
 ```
 
 usage from controller
 ```ruby
-class UsersController < ApplicationController
-  def create
-    cmd    = UserService::Commands::Create.new(user_params)
+class AuthenticationController < ApplicationController
+  def Login
+    cmd    = AuthenticationService::Commands::Login.new(login_params)
     result = ApplicationService.call(cmd)
 
     if result.ok?
