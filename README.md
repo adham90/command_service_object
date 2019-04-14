@@ -25,7 +25,6 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'command_service_object'
 ```
-
 And then execute:
 
     $ bundle
@@ -33,6 +32,12 @@ And then execute:
 Or install it yourself as:
 
     $ gem install command_service_object
+
+Next, you need to run the generator:
+
+```bash
+$ rails generate service:install
+```
 
 ## Usage
 
