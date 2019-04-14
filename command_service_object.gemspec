@@ -20,6 +20,13 @@ Gem::Specification.new do |spec|
     end
   end
 
+  spec.metadata = {
+    'homepage_uri' => 'https://github.com/adham90/command_service_object',
+    'changelog_uri' => 'https://github.com/adham90/command_service_object/blob/master/CHANGELOG.md',
+    'source_code_uri' => 'https://github.com/adham90/command_service_object',
+    'bug_tracker_uri' => 'https://github.com/adham90/command_service_object/issues'
+  }
+
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
@@ -32,5 +39,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'thor', '~> 0.20.3'
 
-  spec.add_runtime_dependency 'virtus', '~> 1.0.5'
+  spec.add_dependency 'virtus', '~> 1.0.5'
 end

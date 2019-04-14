@@ -7,7 +7,7 @@ module CommandServiceObject
     end
 
     def self.setup_action_controller
-      ActionController::Base.send :include, ServiceControllerHelper
+      ActionController::Base.send :include, ControllerHelper
     end
   end
 end

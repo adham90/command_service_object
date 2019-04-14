@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CommandServiceObject
-  module ServiceModelHelper
+  module ModelHelper
     def model_name
       name.camelize
     end

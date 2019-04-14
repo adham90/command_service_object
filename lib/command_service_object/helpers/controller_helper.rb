@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 module CommandServiceObject
-  module ServiceControllerHelper
+  module ControllerHelper
     def self.included(base)
       base.extend ClassMethods
     end
 
-    def command(service: nil, usecase: action_name)
-      service_name = service || self.class.default_service || controller_name
+    ActiveSupport.on_load :action_controller do
+      define_method(CommandServiceObject.configuration.command_method_name) \
+        do |service: nil, usecase: action_name|
+        service_name = service || self.class.default_service || controller_name
 
-      "#{service_name}/commands/#{usecase}".camelize.constantize
+        "#{service_name}/commands/#{usecase}".camelize.constantize
+      end
     end
 
     def execute(cmd)
