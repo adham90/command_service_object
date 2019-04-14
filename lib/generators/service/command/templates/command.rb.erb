@@ -5,7 +5,12 @@ module <%= service_name.classify %>::Commands
     # You can read Virtus gem doc for more info.
     # https://github.com/solnic/virtus
     include Virtus.model
+    include ActiveModel::Validations
 
+    # Attributes
     attribute :REPLACE_ME, String
+
+    # Validations
+    validates :REPLACE_ME, presence: true
   end
 end
