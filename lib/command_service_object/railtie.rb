@@ -1,6 +1,6 @@
 module CommandServiceObject
   class Railtie < Rails::Railtie
-    initializer "CommandServiceObject::Railtie.configure_rails_initialization" do |app|
+    initializer "configure_rails_initialization" do |app|
       ActiveSupport.on_load :action_controller do
         CommandServiceObject::Railtie.setup_action_controller
       end
