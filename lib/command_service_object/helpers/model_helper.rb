@@ -7,13 +7,15 @@ module CommandServiceObject
     end
 
     def model_class
-      Object.const_get(model_name) rescue nil
+      Object.const_get(model_name)
+    rescue StandardError
+      nil
     end
 
     def model_attributes
       return { REPLACE_ME: String } if model_class.nil?
 
-      attrs = Hash.new
+      attrs = {}
       model_class.columns_hash.each do |k, v|
         next if ignored_column_names.include?(k)
 
@@ -26,21 +28,21 @@ module CommandServiceObject
     end
 
     def ignored_column_names
-      [
-        'created_at',
-        'updated_at',
-        'encrypted_password'
+      %w[
+        created_at
+        updated_at
+        encrypted_password
       ]
     end
 
     def allowed_column_types
       {
-        string: "String",
-        bigint: "Integer",
-        integer: "Integer",
-        decimal: "Float",
-        boolean: "Boolean",
-        datetime: "DateTime"
+        string: 'String',
+        bigint: 'Integer',
+        integer: 'Integer',
+        decimal: 'Float',
+        boolean: 'Boolean',
+        datetime: 'DateTime'
       }
     end
   end
