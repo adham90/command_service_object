@@ -4,32 +4,12 @@ class UsecaseBase
   attr_reader :cmd
 
   def initialize(cmd)
+    raise Errors::InvalidCommand, cmd.class if cmd.invalid?
+
     @cmd = cmd
   end
 
-  class << self
-    def call(cmd)
-      raise Errors::InvalidCommand, cmd.class if cmd.invalid?
-
-      obj = new(cmd)
-      obj.call
-    rescue StandardError => e
-      handle_failure(e)
-      obj.send(:rollback)
-      raise e
-    end
-
-    def handle_failure(failure)
-      # don't log custom failures if you want :D
-      return if failure.is_a?(CommandServiceObject::Failure)
-
-      #
-      # Add your logging logic
-      # ex:
-      #   Rollbar.error(err)
-      #
-    end
-  end
+  def rollback; end
 
   private
 
@@ -38,6 +18,4 @@ class UsecaseBase
                                          message: message,
                                          extra_data: extra_data
   end
-
-  def rollback; end
 end

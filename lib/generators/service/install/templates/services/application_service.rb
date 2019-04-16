@@ -1,9 +1,25 @@
 # frozen_string_literal: true
 
 class ApplicationService
-  def self.call(cmd)
-    ServiceResult.new do
-      cmd.class.name.gsub('Commands', 'Usecases').constantize.call(cmd)
+  class << self
+    def call(cmd)
+      usecase = cmd.class.name.gsub('Commands', 'Usecases').constantize.new(cmd)
+
+      usecase.call
+    rescue StandardError => e
+      usecase.rollback if usecase
+      handle_failure(e)
+      raise e
+    end
+
+    def handle_failure(failure)
+      # don't log custom failures if you want :D
+      return if failure.class.is_a?(CommandServiceObject::Failure)
+      #
+      # Add your logging logic
+      # ex:
+      #   Rollbar.error(err)
+      #
     end
   end
 end
