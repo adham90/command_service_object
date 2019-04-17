@@ -5,7 +5,6 @@ require_relative './setup/setup_generator.rb'
 require_relative './usecase/usecase_generator.rb'
 require_relative './command/command_generator.rb'
 require_relative './test/test_generator.rb'
-require_relative './error/error_generator.rb'
 require 'rails/generators'
 require 'rails/generators/model_helpers'
 
@@ -18,7 +17,6 @@ module Service
       class_option :skip_usecase, type: :boolean, default: false, aliases: '-U'
       class_option :skip_command, type: :boolean, default: false, aliases: '-C'
       class_option :skip_test,    type: :boolean, default: false, aliases: '-T'
-      class_option :add_error,    type: :boolean, default: false, aliases: '-e'
 
       def install_if_not
         return if File.exist?('app/services')
@@ -46,12 +44,6 @@ module Service
         return if options.skip_test?
 
         invoke Service::Generators::TestGenerator, [name, usecases]
-      end
-
-      def generate_errors
-        return unless options.add_error?
-
-        invoke Service::Generators::ErrorGenerator, [name, usecases]
       end
     end
   end

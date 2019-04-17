@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-  spec.post_install_message = "Yaaay!! CommandServiceObject is ready to rock your app!!"
+  spec.post_install_message = 'Yaaay!! CommandServiceObject is ready to rock your app!!'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'byebug', '~> 9.0.6'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module <%= service_name.classify %>::Usecases
-  class <%= @usecase %> < ServiceBase
+  class <%= @usecase %> < UsecaseBase
     #
     # Your business logic goes here, keep [call] method clean by using private
     # methods for Business logic.
@@ -10,12 +10,12 @@ module <%= service_name.classify %>::Usecases
       replace_me
     end
 
-    private
+    # This method will run if call method raise error
+    def rollback
+    # rollback logic
+    end
 
-      # This method will run if call method raise error
-      def rollback
-        # rollback logic
-      end
+    private
 
       def replace_me
         # [business logic]

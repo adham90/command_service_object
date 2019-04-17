@@ -1,10 +1,11 @@
-require "command_service_object/version"
-require "command_service_object/configuration"
-require "command_service_object/helpers/model_helper"
-require "command_service_object/helpers/controller_helper"
+require 'command_service_object/version'
+require 'command_service_object/configuration'
+require 'command_service_object/helpers/model_helper'
+require 'command_service_object/helpers/controller_helper'
+require 'command_service_object/failure'
 
-if defined?(Rails) && Rails::VERSION::STRING >= "3.0"
-  require "command_service_object/railtie"
+if defined?(Rails) && Rails::VERSION::STRING >= '3.0'
+  require 'command_service_object/railtie'
 end
 
 module CommandServiceObject
