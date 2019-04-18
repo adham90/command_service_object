@@ -7,7 +7,10 @@ class ApplicationService
 
       usecase.call
     rescue StandardError => e
-      usecase.rollback if usecase
+      if usecase
+        usecase.rollback_setters
+        usecase.rollback
+      end
       handle_failure(e)
       raise e
     end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UsecaseBase
+  include CommandServiceObject::Hooks
+
   attr_reader :cmd
 
   def initialize(cmd)
