@@ -78,7 +78,7 @@ module CommandServiceObject
 
       def getters(name)
         service = to_s.split('::').first
-        obj     = "#{service}/Usecases/Setters/#{name}".camelize.constantize
+        obj     = "#{service}/Usecases/Getters/#{name}".camelize.constantize
 
         _getters.add(obj)
       end

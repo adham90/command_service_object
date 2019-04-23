@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module <%= service_name.classify %>::Usecases::Setters
-  class <%= @setter %>
+  class <%= @setter %> < CaseBase
     def call
-    # <payload>
+      # <payload>
     end
 
     def rollback

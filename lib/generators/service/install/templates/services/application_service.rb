@@ -3,8 +3,9 @@
 class ApplicationService
   class << self
     def call(cmd)
-      usecase = cmd.class.name.gsub('Commands', 'Usecases').constantize.new(cmd)
+      raise Errors::InvalidCommand, cmd.class if cmd.invalid?
 
+      usecase = usecase_for(cmd).new(cmd)
       usecase.call
     rescue StandardError => e
       if usecase
@@ -21,8 +22,14 @@ class ApplicationService
       #
       # Add your logging logic
       # ex:
-      #   Rollbar.error(err)
+      #   Rollbar.error(failure)
       #
+    end
+
+    private
+
+    def usecase_for(cmd)
+      cmd.class.name.gsub('Commands', 'Usecases').constantize
     end
   end
 end
