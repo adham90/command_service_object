@@ -1,7 +1,0 @@
-class CustomValidator < ActiveModel::Validator
-  def validate(record)
-    if record.ATTRIBUTE_NAME > example
-      record.errors.add :base, "Error Message"
-    end
-  end
-end
