@@ -42,31 +42,39 @@ $ rails generate service:install
 ## Usage
 
     $ rails g service [service_name] [usecases usecases]
-### Example
+### Generate Service ex:
 
-    $ rails g service authentication login
+    $ rails g service auth login
 output
 
 ```bash
 app/services/
 ├── application_service.rb
-├── authentication_service
+├── auth_service
 │   ├── commands
 │   │   └── login.rb
-│   ├── errors
 │   └── usecases
-│       └── login.rb
-├── service_base.rb
-├── service_controller_helper.rb
+│       ├── login.rb
+│       ├── login.rb
+│       ├── getters
+│       └── setters
+│           └── user_profile_image.rb
+├── case_base.rb
 └── service_result.rb
 ```
+
+### Generate setters and getters ex:
+
+    $ rails g service:setter auth user_profile_image
+    $ rails g service:getter auth user_balance
+
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
 ```ruby
-# app/services/authentication_service/commands/login.rb
+# app/services/auth_service/commands/login.rb
 # frozen_string_literal: true
 
-module AuthenticationService::Commands
+module AuthService::Commands
   class Login
     # You can read Virtus gem doc for more info.
     # https://github.com/solnic/virtus
@@ -74,48 +82,55 @@ module AuthenticationService::Commands
     include ActiveModel::Validations
 
     # Attributes
-    attribute :REPLACE_ME, String
+    # attribute :REPLACE_ME, String
 
     # Validations
-    validates :REPLACE_ME, presence: true
+    # validates :REPLACE_ME, presence: true
   end
 end
 ```
 and then add your business logic
 ```ruby
-# app/services/authentication_service/usecases/login.rb
+# app/services/auth_service/usecases/login.rb
 # frozen_string_literal: true
 
-module AuthenticationService::Usecases
-  class Login < ServiceBase
+module AuthService::Usecases
+  class Login < CaseBase
+    include CommandServiceObject::Hooks
+    setters :user_profile_image
+    getters :user_balance
     #
     # Your business logic goes here, keep [call] method clean by using private
     # methods for Business logic.
     #
     def call
-      replace_me
+      result  = user_profile_image(image_url) # set user profile image ex.
+      balance = user_balance # get user balance ex.
+    end
+
+    # This method will run if call method raise error
+    def rollback
+      # rollback logic
     end
 
     private
-
-      # This method will run if call method raise error
-      def rollback
-        # rollback logic
-      end
 
       def replace_me
         # [business logic]
       end
   end
 end
+
 ```
 
 usage from controller
 ```ruby
 class AuthenticationController < ApplicationController
+  default_service :auth_service
+
   def Login
-    cmd    = AuthenticationService::Commands::Login.new(login_params)
-    result = ApplicationService.call(cmd)
+    cmd    = command.new(params) # AuthService::Commands::Login.new
+    result = execute(cmd)
 
     if result.ok?
       render json: result.value!.as_json, status: 201
