@@ -1,114 +1,50 @@
 # frozen_string_literal: true
 
 require 'rubygems'
+require_relative './setup/setup_generator.rb'
+require_relative './usecase/usecase_generator.rb'
+require_relative './command/command_generator.rb'
+require_relative './test/test_generator.rb'
+require 'rails/generators'
 require 'rails/generators/model_helpers'
 
-class ServiceGenerator < Rails::Generators::NamedBase
-  include Rails::Generators::ModelHelpers
+module Service
+  module Generators
+    class ServiceGenerator < Rails::Generators::NamedBase
+      argument :usecases, type: :array, default: [], banner: 'usecase usecase'
 
-  source_root File.expand_path('templates', __dir__)
+      # Skiping options
+      class_option :skip_usecase, type: :boolean, default: false, aliases: '-U'
+      class_option :skip_command, type: :boolean, default: false, aliases: '-C'
+      class_option :skip_test,    type: :boolean, default: false, aliases: '-T'
 
-  argument :usecases, type: :array, default: [], banner: 'usecase usecase'
-  class_option :skip_command, type: :boolean, default: false, aliases: '-C',
-                              desc: 'skip command file generation'
-  class_option :skip_error, type: :boolean, default: false, aliases: '-E',
-                            desc: 'skip error file generation'
-  class_option :skip_test, type: :boolean, default: false, aliases: '-T',
-                           desc: 'skip test file generation'
+      def install_if_not
+        return if File.exist?('app/services')
 
-  def create_base_dir
-    return if File.exist?('app/services')
+        generate 'service:install'
+      end
 
-    directory 'base', 'app/services'
-  end
+      def setup
+        invoke Service::Generators::SetupGenerator, [name]
+      end
 
-  def add_controller_helper_to_application_controller
-    application_controller_path = 'app/controllers/application_controller.rb'
+      def generate_usecases
+        return if options.skip_usecase?
 
-    line = File.readlines(application_controller_path).select do |li|
-      li =~ /class ApplicationController </
-    end.first
+        invoke Service::Generators::UsecaseGenerator, [name, usecases]
+      end
 
-    inject_into_file application_controller_path, after: line do
-      "  include ServiceControllerHelper\n"
+      def generate_commands
+        return if options.skip_command?
+
+        invoke Service::Generators::CommandGenerator, [name, usecases]
+      end
+
+      def generate_tests
+        return if options.skip_test?
+
+        invoke Service::Generators::TestGenerator, [name, usecases]
+      end
     end
-  end
-
-  def add_virtus_gem_to_gemfile
-    gem 'virtus'
-  end
-
-  def create_service_dir
-    return if File.exist?("app/services/#{service_name}")
-
-    empty_directory("app/services/#{service_name}")
-    empty_directory("app/services/#{service_name}/usecases")
-    empty_directory("app/services/#{service_name}/commands")
-    empty_directory("app/services/#{service_name}/errors")
-  end
-
-  def generate_usecases
-    usecases.each do |usecase|
-      generate_usecase(usecase)
-      generate_command(usecase)
-      generate_error(usecase)
-      generate_test(usecase)
-    end
-  end
-
-  private
-
-  def generate_usecase(usecase)
-    @usecase = usecase.classify
-    path = "app/services/#{service_name}/usecases/#{usecase.underscore}.rb"
-    template 'usecase.rb.erb', path
-  end
-
-  def generate_command(command)
-    @command = command.classify
-    path = "app/services/#{service_name}/commands/#{command.underscore}.rb"
-    template 'command.rb.erb', path unless options.skip_command?
-  end
-
-  def generate_error(error)
-    @error = error.classify
-    path = "app/services/#{service_name}/errors/#{error.underscore}.rb"
-    template 'error.rb.erb', path unless options.skip_error?
-  end
-
-  def generate_test(test)
-    return if options.skip_test?
-
-    if defined?(Minitest)
-      empty_directory('test/services')
-      generate_minitest_test_files(test)
-    elsif defined?(RSpec)
-      empty_directory('spec/services')
-      generate_rspec_test_files(test)
-    end
-  end
-
-  def generate_minitest_test_files(test)
-    dir = "test/services/#{service_name}"
-    empty_directory(dir)
-
-    @test = test.classify
-    path  = "#{dir}/#{test.underscore}_test.rb"
-
-    template 'minitest.rb.erb', path
-  end
-
-  def generate_rspec_test_files(test)
-    dir = "spec/services/#{service_name}"
-    empty_directory(dir)
-
-    @test = test.classify
-    path  = "#{dir}/#{test.underscore}_spec.rb"
-
-    template 'rspec.rb.erb', path
-  end
-
-  def service_name
-    "#{name.underscore}_service"
   end
 end
