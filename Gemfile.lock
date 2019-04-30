@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    command_service_object (0.4.0)
+    command_service_object (0.5.0)
       virtus (~> 1.0.5)
 
 GEM
