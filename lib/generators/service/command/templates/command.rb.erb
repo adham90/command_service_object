@@ -2,10 +2,10 @@
 
 module <%= service_name.classify %>::Commands
   class <%= @command %>
-    # You can read Virtus gem doc for more info.
-    # https://github.com/solnic/virtus
     include Virtus.model
     include ActiveModel::Validations
+    # You can read Virtus gem doc for more info.
+    # https://github.com/solnic/virtus
 
     # Attributes
     <%- @model_attributes.each do |k,v| -%>
