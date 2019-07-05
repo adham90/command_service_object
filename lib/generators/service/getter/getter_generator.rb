@@ -3,7 +3,7 @@ require_relative '../setup/setup_generator.rb'
 module Service
   module Generators
     class GetterGenerator < Rails::Generators::NamedBase
-      check_class_collision
+      # check_class_collision
 
       source_root File.expand_path('templates', __dir__)
 

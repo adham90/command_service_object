@@ -6,7 +6,7 @@ require_relative './usecase/usecase_generator.rb'
 require_relative './command/command_generator.rb'
 require_relative './test/test_generator.rb'
 require 'rails/generators'
-require 'rails/generators/model_helpers'
+# require 'rails/generators/model_helpers'
 
 module Service
   module Generators
