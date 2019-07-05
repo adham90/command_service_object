@@ -3,8 +3,6 @@ require_relative '../setup/setup_generator.rb'
 module Service
   module Generators
     class UsecaseGenerator < Rails::Generators::NamedBase
-      check_class_collision
-
       source_root File.expand_path('templates', __dir__)
 
       argument :usecases, type: :array, default: [], banner: 'usecase usecase'
