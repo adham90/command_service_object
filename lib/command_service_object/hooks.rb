@@ -31,7 +31,7 @@ module CommandServiceObject
         getters.each do |getter|
           method_name = getter.name.split('::').last.underscore
 
-          define_singleton_method(method_name) do |payload|
+          define_singleton_method(method_name) do |_payload|
             getter.new.call(args)
           end
         end
