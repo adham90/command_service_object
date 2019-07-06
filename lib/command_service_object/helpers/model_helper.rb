@@ -16,7 +16,7 @@ module CommandServiceObject
       return { REPLACE_ME: String } if model_class.nil?
 
       attrs = {}
-      model_class.columns_hash.each do |k, v|
+      model_class.try(:columns_hash).each do |k, v|
         next if ignored_column_names.include?(k)
 
         type = allowed_column_types[v.type]
