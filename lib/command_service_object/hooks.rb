@@ -69,18 +69,22 @@ module CommandServiceObject
         @_getters ||= Set.new([])
       end
 
-      def setters(name)
+      def setters(*names)
         service = to_s.split('::').first
-        obj     = "#{service}/Usecases/Setters/#{name}".camelize.constantize
 
-        _setters.add(obj)
+        names.each do |name|
+          obj = "#{service}/Usecases/Setters/#{name}".camelize.constantize
+          _setters.add(obj)
+        end
       end
 
-      def getters(name)
+      def getters(*names)
         service = to_s.split('::').first
-        obj     = "#{service}/Usecases/Getters/#{name}".camelize.constantize
 
-        _getters.add(obj)
+        names.each do |name|
+          obj = "#{service}/Usecases/Getters/#{name}".camelize.constantize
+          _getters.add(obj)
+        end
       end
     end
   end
