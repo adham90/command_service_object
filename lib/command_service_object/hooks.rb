@@ -23,7 +23,7 @@ module CommandServiceObject
       end
 
       def rollback_micros
-        _called_micross.reverse_each(&:rollback)
+        _called_micros.reverse_each(&:rollback)
       end
 
       def setup_getters(getters)
