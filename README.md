@@ -56,17 +56,15 @@ app/services/
 │   └── usecases
 │       ├── login.rb
 │       ├── login.rb
-│       ├── getters
-│       └── setters
+│       └── micros
 │           └── user_profile_image.rb
 ├── case_base.rb
 └── service_result.rb
 ```
 
-### Generate setters and getters ex:
+### Generate micros ex:
 
-    $ rails g service:setter auth user_profile_image
-    $ rails g service:getter auth user_balance
+    $ rails g service:micro auth user_profile_image
 
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
@@ -97,8 +95,7 @@ and then add your business logic
 module AuthService::Usecases
   class Login < CaseBase
     include CommandServiceObject::Hooks
-    setters :user_profile_image
-    getters :user_balance
+    micros :user_profile_image
     #
     # Your business logic goes here, keep [call] method clean by using private
     # methods for Business logic.

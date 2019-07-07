@@ -7,8 +7,7 @@ module Service
         empty_directory("app/services/#{service_name}")
         empty_directory("app/services/#{service_name}/usecases")
         empty_directory("app/services/#{service_name}/commands")
-        empty_directory("app/services/#{service_name}/usecases/setters")
-        empty_directory("app/services/#{service_name}/usecases/getters")
+        empty_directory("app/services/#{service_name}/usecases/micros")
       end
 
       private
