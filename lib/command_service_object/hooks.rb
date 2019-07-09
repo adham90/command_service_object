@@ -26,16 +26,6 @@ module CommandServiceObject
         _called_micros.reverse_each(&:rollback)
       end
 
-      def setup_getters(getters)
-        getters.each do |getter|
-          method_name = getter.name.split('::').last.underscore
-
-          define_singleton_method(method_name) do |_payload|
-            getter.new.call(args)
-          end
-        end
-      end
-
       def setup_micros(micros)
         micros.each do |micro|
           method_name = micro.name.split('::').last.underscore
@@ -48,10 +38,10 @@ module CommandServiceObject
           # rollable micros
           define_singleton_method(method_name) do |payload|
             obj = micro.new(payload)
-            obj.call
+            result = obj.call
 
             _called_micros << obj
-            obj
+            result
           end
         end
       end
