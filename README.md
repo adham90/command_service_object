@@ -10,6 +10,7 @@ Service consists of several objects { `Command Object` ` Usecase Object`   And `
 
 - **Command Object:** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
 - **Usecase Object:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
+- **Micros:** small reusable logic under the same service.
 - **Error Object:** business logic errors existed user `errors` dir inside the service dir.
 
 #### Result Object:
@@ -55,16 +56,15 @@ app/services/
 │   │   └── login.rb
 │   └── usecases
 │       ├── login.rb
-│       ├── login.rb
 │       └── micros
-│           └── user_profile_image.rb
+│           └── generate_jwt_token_for.rb
 ├── case_base.rb
 └── service_result.rb
 ```
 
 ### Generate micros ex:
 
-    $ rails g service:micro auth user_profile_image
+    $ rails g service:micro auth generate_jwt_token_for
 
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
@@ -95,14 +95,13 @@ and then add your business logic
 module AuthService::Usecases
   class Login < CaseBase
     include CommandServiceObject::Hooks
-    micros :user_profile_image
+    micros :generate_jwt_token_for
     #
     # Your business logic goes here, keep [call] method clean by using private
     # methods for Business logic.
     #
     def call
-      result  = user_profile_image(image_url) # set user profile image ex.
-      balance = user_balance # get user balance ex.
+      token = generate_jwt_token_for(user)
     end
 
     # This method will run if call method raise error
