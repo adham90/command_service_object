@@ -11,13 +11,14 @@ Service consists of several objects { `Command Object` ` Usecase Object`   And `
 - **Command Object:** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
 - **Usecase Object:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
 - **Micros:** small reusable logic under the same service.
-- **Error Object:** business logic errors existed user `errors` dir inside the service dir.
 
 #### Result Object:
-In case of  successful or failure `ApplicationService` the responsible object for all services will return `service_result` object this object contain `value!` method  containing successful call result, and `errors` method containing failure `errors` objects.
+In case of successful or failure `ApplicationService` the responsible object for all services will return `service_result` object this object contain `value!` method containing successful call result, and `errors` method containing failure `errors` objects.
 
-> You can check if the result successful or not by using `ok?` method. 
+#### Business Logic Failures
+To raise bussiness logic failures you can use `fail!` helper method with `message: String, extra_data: Hash` arguments.
 
+> You can check if the result successful or not by using `ok?` method.
 
 ## Installation
 
@@ -51,13 +52,13 @@ output
 ```bash
 app/services/
 ├── application_service.rb
+├── external/
 ├── auth_service
 │   ├── commands
 │   │   └── login.rb
 │   └── usecases
 │       ├── login.rb
 │       └── micros
-│           └── generate_jwt_token_for.rb
 ├── case_base.rb
 └── service_result.rb
 ```
@@ -65,6 +66,26 @@ app/services/
 ### Generate micros ex:
 
     $ rails g service:micro auth generate_jwt_token_for
+
+```bash
+app/services/
+├── auth_service
+│   └── usecases
+│       └── micros
+│           └── generate_jwt_token_for.rb
+```
+
+```ruby
+# app/services/auth_service/usecases/micros/generate_jwt_token_for.rb
+
+module PaymentService::Usecases::Micros
+  class GenerateJwtTokenFor < CaseBase
+    def call
+        # <Payload>
+    end
+  end
+end
+```
 
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
@@ -116,7 +137,26 @@ module AuthService::Usecases
       end
   end
 end
+```
 
+### External APIs or Services
+You can wrap external apis or services under `external/` dir
+#### ex:
+```ruby
+module External
+  class StripeService
+    class << self
+      def charge(customer:, amount:, currency:, description: nil)
+        Stripe::Charge.create(
+          customer:    customer.id,
+          amount:      (round_up(amount, currency) * 100).to_i,
+          description: description || customer.email,
+          currency:    currency
+        )
+      end
+    end
+  end
+end
 ```
 
 usage from controller
