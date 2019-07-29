@@ -4,7 +4,7 @@ class CaseBase
   include CommandServiceObject::FailureHelper
 
   attr_reader :cmd
-  alias_attribute :cmd, :payload
+  alias_attribute :payload, :cmd
 
   def initialize(cmd)
     @cmd = cmd
