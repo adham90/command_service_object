@@ -5,7 +5,7 @@ require 'command_service_object/helpers/model_helper'
 require 'command_service_object/helpers/controller_helper'
 require 'command_service_object/helpers/failure_helper'
 require 'command_service_object/hooks'
-require_dependency 'virtus'
+require 'virtus'
 
 if defined?(Rails) && Rails::VERSION::STRING >= '3.0'
   require 'command_service_object/railtie'
