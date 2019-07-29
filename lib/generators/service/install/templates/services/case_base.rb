@@ -3,10 +3,11 @@
 class CaseBase
   include CommandServiceObject::FailureHelper
 
-  attr_reader :payload
+  attr_reader :cmd
+  alias_attribute :cmd, :payload
 
-  def initialize(payload)
-    @payload = payload
+  def initialize(cmd)
+    @cmd = cmd
   end
 
   def rollback; end

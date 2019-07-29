@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support/all'
+
 module CommandServiceObject
   module ControllerHelper
     def self.included(base)

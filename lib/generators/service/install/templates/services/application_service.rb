@@ -6,24 +6,25 @@ class ApplicationService
       raise Errors::InvalidCommand, cmd.class if cmd.invalid?
 
       usecase = usecase_for(cmd).new(cmd)
-      usecase.call
-    rescue StandardError => e
-      if usecase
+      result  = ServiceResult.new { usecase.call }
+
+      if result.error.present?
         usecase.rollback_micros
         usecase.rollback
       end
-      handle_failure(e)
-      raise e
+
+      result
+    rescue StandardError => e
+      handle_errors(e)
     end
 
-    def handle_failure(failure)
-      # don't log custom failures if you want :D
-      return if failure.class.is_a?(CommandServiceObject::Failure)
-      #
+    def handle_errors(error)
       # Add your logging logic
       # ex:
       #   Rollbar.error(failure)
       #
+
+      raise error
     end
 
     private

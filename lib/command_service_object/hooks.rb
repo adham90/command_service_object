@@ -31,13 +31,13 @@ module CommandServiceObject
           method_name = micro.name.split('::').last.underscore
 
           # unrollable micros
-          define_singleton_method("#{method_name}!") do |payload|
-            micro.new(payload).call
+          define_singleton_method("#{method_name}!") do |cmd|
+            micro.new(cmd).call
           end
 
           # rollable micros
-          define_singleton_method(method_name) do |payload|
-            obj = micro.new(payload)
+          define_singleton_method(method_name) do |cmd|
+            obj = micro.new(cmd)
             result = obj.call
 
             _called_micros << obj
