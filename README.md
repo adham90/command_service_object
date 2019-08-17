@@ -2,20 +2,24 @@
 
 Rails Generator for command service object.
 
-### Theory:
+## Theory
+
 [Command Design Pattern](https://en.wikipedia.org/wiki/Command_pattern) consists of `Command Object` and `Service Object` (Executor), Command object is responsible for containing `Client` requests and run input validations on it to ensure that the request is valid and set default values, then `Service Object` applies the business logic on that command.
 
-### Implementation:
-Service consists of several objects { `Command Object` ` Usecase Object`   And `Error Object` (business logic error) }.
+### Implementation
+
+Service consists of several objects { `Command Object` `Usecase Object`   And `Error Object` (business logic error) }.
 
 - **Command Object:** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
 - **Usecase Object:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
 - **Micros:** small reusable logic under the same service.
 
-#### Result Object:
+#### Result Object
+
 In case of successful or failure `ApplicationService` the responsible object for all services will return `service_result` object this object contain `value!` method containing successful call result, and `errors` method containing failure `errors` objects.
 
 #### Business Logic Failures
+
 To raise bussiness logic failures you can use `fail!` helper method with `message: String, extra_data: Hash` arguments.
 
 > You can check if the result successful or not by using `ok?` method.
@@ -27,26 +31,26 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'command_service_object'
 ```
+
 And then execute:
 
-    $ bundle
+  `bundle`
 
 Or install it yourself as:
 
-    $ gem install command_service_object
+  `gem install command_service_object`
 
 Next, you need to run the generator:
 
-```bash
-$ rails generate service:install
-```
+  `rails generate service:install`
 
 ## Usage
 
-    $ rails g service [service_name] [usecases usecases]
-### Generate Service ex:
+  $ rails g service [service_name] [usecases usecases]
 
-    $ rails g service auth login
+### Generate Service ex
+
+  $ rails g service auth login
 output
 
 ```bash
@@ -63,9 +67,9 @@ app/services/
 └── service_result.rb
 ```
 
-### Generate micros ex:
+### Generate micros ex
 
-    $ rails g service:micro auth generate_jwt_token_for
+  $ rails g service:micro auth generate_jwt_token_for
 
 ```bash
 app/services/
@@ -89,6 +93,7 @@ end
 
 then you can edit command params
 > you can read [Virtus gem docs](https://github.com/solnic/virtus) for more info. 
+
 ```ruby
 # app/services/auth_service/commands/login.rb
 # frozen_string_literal: true
@@ -108,7 +113,9 @@ module AuthService::Commands
   end
 end
 ```
+
 and then add your business logic
+
 ```ruby
 # app/services/auth_service/usecases/login.rb
 # frozen_string_literal: true
@@ -140,8 +147,11 @@ end
 ```
 
 ### External APIs or Services
+
 You can wrap external apis or services under `external/` dir
-#### ex:
+
+#### ex
+
 ```ruby
 module External
   class StripeService
@@ -160,6 +170,7 @@ end
 ```
 
 usage from controller
+
 ```ruby
 class AuthenticationController < ApplicationController
   default_service :auth_service

@@ -8,23 +8,24 @@ class ApplicationService
       usecase = usecase_for(cmd).new(cmd)
       result  = ServiceResult.new { usecase.call }
 
-      if result.error.present?
-        usecase.rollback_micros
-        usecase.rollback
-      end
-
+      rollback(usecase, result, cmd) if result.error.present?
       result
     rescue StandardError => e
-      handle_errors(e)
+      log_errors(e, cmd)
+      ServiceResult.new { raise e }
     end
 
-    def handle_errors(error)
+    def rollback(usecase, result, cmd)
+      usecase.rollback_micros
+      usecase.rollback
+      log_errors(result.error, cmd)
+    end
+
+    def log_errors(err, _cmd)
+      return if err.class.is_a?(CommandServiceObject::Failure)
       # Add your logging logic
       # ex:
-      #   Rollbar.error(failure)
-      #
-
-      raise error
+      #   Rollbar.error(err)
     end
 
     private
