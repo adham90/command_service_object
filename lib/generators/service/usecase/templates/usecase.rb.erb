@@ -16,6 +16,15 @@ module <%= service_name.classify %>::Usecases
       # rollback logic
     end
 
+    def allowed?
+      # policies loginc for issuer
+      # ex:
+      #
+      #   return false if issuer.role != :admin
+
+      true
+    end
+
     private
 
       def replace_me
