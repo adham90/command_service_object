@@ -10,5 +10,9 @@ class CaseBase
     @cmd = cmd
   end
 
+  def allowed?
+    true
+  end
+
   def rollback; end
 end
