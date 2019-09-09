@@ -9,10 +9,18 @@ describe <%= service_name.classify %>::Usecases::<%= @usecase %> do
   context "when success" do
     let(:cmd_params) { cmd_default_params.merge!({ name: 'valid_name' }) }
     let!(:result) { ApplicationService.call(cmd) }
+
+    it 'should be okay?' do
+      expect(result.ok?).to be true
+    end
   end
 
   context 'when failure' do
     let(:cmd_params) { cmd_default_params.merge!({ name: 'invalid_name' }) }
     let!(:result) { ApplicationService.call(cmd) }
+
+    it 'should not be okay?' do
+      expect(result.ok?).to be false
+    end
   end
 end
