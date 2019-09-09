@@ -6,7 +6,9 @@ class ApplicationService
       raise Errors::InvalidCommand, cmd.class if cmd.invalid?
 
       usecase = usecase_for(cmd).new(cmd)
-      result  = ServiceResult.new { usecase.call }
+      raise Errors::NotAuthorizedError, cmd.class unless usecase.allowed?
+
+      result = ServiceResult.new { usecase.call }
 
       rollback(usecase, result, cmd) if result.error.present?
       result

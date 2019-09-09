@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module <%= service_name.classify %>::Commands
-  class <%= @command %>
-    include Virtus.model
-    include ActiveModel::Validations
+  class <%= @command %> < CommandBase
     # You can read Virtus gem doc for more info.
     # https://github.com/solnic/virtus
 
