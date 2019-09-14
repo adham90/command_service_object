@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    command_service_object (0.5.11)
+    command_service_object (0.6.0)
       virtus (~> 1.0, >= 1.0.5)
 
 GEM
@@ -144,4 +144,4 @@ DEPENDENCIES
   thor (~> 0.20.3)
 
 BUNDLED WITH
-   2.0.1
+   2.0.2
