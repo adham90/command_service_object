@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+describe <%= service_name.classify %>::Commands::<%= @test %>, type: :model do
+  describe 'attrubites' do
+    it { expect(subject).to respond_to(:EX) }
+  end
+
+  describe 'validatios' do
+    it { should validate_presence_of(:EX) }
+  end
+end
