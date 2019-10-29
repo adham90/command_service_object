@@ -2,6 +2,7 @@
 
 class CaseBase
   include CommandServiceObject::FailureHelper
+  include CommandServiceObject::Hooks
 
   attr_reader :cmd
   alias_attribute :payload, :cmd
