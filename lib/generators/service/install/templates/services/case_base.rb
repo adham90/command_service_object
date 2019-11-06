@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CaseBase
+  include CommandServiceObject::Hooks
   include CommandServiceObject::FailureHelper
 
   attr_reader :cmd, :issuer, :right_name
