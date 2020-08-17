@@ -136,6 +136,15 @@ module AuthService::Usecases
     def rollback
       # rollback logic
     end
+    
+    def allowed?
+      # policies loginc for issuer
+      # ex:
+      #
+      #   return false if issuer.role != :admin
+
+      true
+    end
 
     private
 
