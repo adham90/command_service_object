@@ -99,11 +99,9 @@ then you can edit command params
 # frozen_string_literal: true
 
 module AuthService::Commands
-  class Login
+  class Login < CommandBase
     # You can read Virtus gem doc for more info.
     # https://github.com/solnic/virtus
-    include Virtus.model
-    include ActiveModel::Validations
 
     # Attributes
     # attribute :REPLACE_ME, String
