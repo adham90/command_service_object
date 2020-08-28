@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+module <%= service_name.classify %>::Repositories
+  class <%= @repo_name %>
+    def initialize(storage = <%= service_name.classify %>::Models::<%= @repo_name %>)
+      @storage = storage
+    end
+
+    private
+
+    attr_reader :storage
+
+    def map_record(record)
+      return nil unless record.present?
+
+      <%= service_name.classify %>::Entities::<%= @repo_name %>.new.tap do |entity|
+        entity.id = record.id
+      end
+    end
+  end
+end

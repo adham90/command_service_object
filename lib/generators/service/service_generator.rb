@@ -16,6 +16,7 @@ module Service
       # Skiping options
       class_option :skip_usecase, type: :boolean, default: false, aliases: '-U'
       class_option :skip_command, type: :boolean, default: false, aliases: '-C'
+      class_option :skip_entity,  type: :boolean, default: false, aliases: '-E'
       class_option :skip_test,    type: :boolean, default: false, aliases: '-T'
 
       def install_if_not

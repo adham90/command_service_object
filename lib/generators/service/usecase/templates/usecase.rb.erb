@@ -24,6 +24,10 @@ module <%= service_name.classify %>::Usecases
       true
     end
 
+    def broadcast_event
+      broadcast(:"#{service_name}_@usecase"
+    end
+
     private
 
       def replace_me
