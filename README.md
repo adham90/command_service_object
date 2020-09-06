@@ -13,6 +13,9 @@ Service consists of several objects { `Command Object` `Usecase Object`   And `E
 - **Command Object:** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
 - **Usecase Object:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
 - **Micros:** small reusable logic under the same service.
+- **Externals:** simple ruby module works as a service interface whenever you wanna call any external service or even service that lives under the same project you should use it.
+- **QueryObjects:** this dir is the only entry point for you to get any data form a service.
+- **Listeners:** is what lesent on a traggerd events accross all services.
 
 #### Result Object
 

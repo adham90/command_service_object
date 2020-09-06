@@ -5,8 +5,10 @@ module Service
         return if File.exist?("app/services/#{service_name}")
 
         empty_directory("app/services/#{service_name}")
-        empty_directory("app/services/#{service_name}/entites")
-        empty_directory("app/services/#{service_name}/models")
+        empty_directory("app/services/#{service_name}/listeners")
+        empty_directory("app/services/#{service_name}/jobs")
+        empty_directory("app/services/#{service_name}/externals")
+        empty_directory("app/services/#{service_name}/query_objects")
         empty_directory("app/services/#{service_name}/usecases")
         empty_directory("app/services/#{service_name}/commands")
         empty_directory("app/services/#{service_name}/usecases/micros")

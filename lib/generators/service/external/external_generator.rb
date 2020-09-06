@@ -2,21 +2,21 @@ require_relative '../setup/setup_generator.rb'
 
 module Service
   module Generators
-    class EntityGenerator < Rails::Generators::NamedBase  
+    class ExternalGenerator < Rails::Generators::NamedBase
       source_root File.expand_path('templates', __dir__)
 
-      argument :entities, type: :array, default: [], banner: 'entity entity'
+      argument :externals, type: :array, default: [], banner: 'external external'
 
       def setup
         invoke Service::Generators::SetupGenerator, [name]
       end
 
       def create_micros
-        entities.each do |e|
-          @entity = e.classify
+        externals.each do |m|
+          @external = m.classify
 
-          path = "app/services/#{service_name}/entities/#{e.underscore}.rb"
-          template 'entity.rb.erb', path
+          path = "app/services/#{service_name}/externals/#{m.underscore}.rb"
+          template 'external.rb.erb', path
         end
       end
 

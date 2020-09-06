@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module <%= service_name.classify %>::QueryObjects
+  class <%= @query %> < QueryBase
+    def self.relation(base_relation=nil)
+      super(base_relation, Artist)
+    end
+
+    # Example
+    def available
+      where(available: true)
+    end
+  end
+end

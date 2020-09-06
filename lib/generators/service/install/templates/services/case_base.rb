@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
+require 'hutch'
+
 class CaseBase
   include CommandServiceObject::Hooks
   include CommandServiceObject::FailureHelper
-  include Wisper::Publisher
 
   attr_reader :cmd, :issuer, :right_name
   alias_attribute :payload, :cmd

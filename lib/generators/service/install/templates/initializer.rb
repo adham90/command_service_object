@@ -1,3 +1,8 @@
+require 'hutch'
+
+Hutch::Logging.logger = Rails.logger
+Hutch.connect
+
 CommandServiceObject.configure do |config|
   # By setting the append_controller_helper to false you will need to
   # manually include the CommandServiceObject::ServiceControllerHelper

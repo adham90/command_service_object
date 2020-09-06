@@ -24,14 +24,14 @@ module <%= service_name.classify %>::Usecases
       true
     end
 
-    def broadcast_event
-      broadcast(:"#{service_name}_@usecase"
+    def broadcast
+      Hutch.publish('<%= "#{service_name}_#{@usecase.underscore}" %>', subject: {}, action: '<%= "#{@usecase.underscore}" %>')
     end
 
     private
 
-      def replace_me
-        # [business logic]
-      end
+    def replace_me
+      # [business logic]
+    end
   end
 end
