@@ -1,18 +1,55 @@
-require 'delegate'
+require "active_record"
 
-class QueryBase < SimpleDelegator
-  def self.relation(base_relation, base_model)
-    base_relation ||= base_model.all
-    new(base_relation)
+class QueryBase
+  RelationRequired = Class.new(StandardError)
+
+  def initialize(*args)
+    @options = args.extract_options!
+    @relation = args.first || base_relation
+
+    if relation.nil?
+      raise(
+        RelationRequired,
+        "Queries require a base relation defined. Use .queries method to define relation."
+      )
+    elsif !relation.is_a?(ActiveRecord::Relation)
+      raise(
+        RelationRequired,
+        "Queries accept only ActiveRecord::Relation as input"
+      )
+    end
   end
 
-  def method_missing(method_name, *args, &block)
-    result = super(method_name, *args, &block)
+  def self.call(*args)
+    new(*args).query
+  end
 
-    if result.class == __getobj__.class
-      self.class.new(result)
-    else
-      result
+  def self.queries(subject)
+    self.base_relation = subject
+  end
+
+  def base_relation
+    return nil if self.class.base_relation.nil?
+
+    if self.class.base_relation.is_a?(ActiveRecord::Relation)
+      self.class.base_relation
+    elsif self.class.base_relation < ActiveRecord::Base
+      self.class.base_relation.all
     end
+  end
+
+  private
+
+  class << self
+    attr_accessor :base_relation
+  end
+
+  attr_reader :relation, :options
+
+  def query
+    raise(
+      NotImplementedError,
+      "You need to implement #query method which returns ActiveRecord::Relation object"
+    )
   end
 end

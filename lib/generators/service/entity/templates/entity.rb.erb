@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+module <%= service_name.classify %>::Entities
+  class <%= @entity %>
+    include Virtus.model(nullify_blank: true)
+
+    # attribute :name, String
+  end
+end

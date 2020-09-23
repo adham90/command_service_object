@@ -2,21 +2,21 @@ require_relative '../setup/setup_generator.rb'
 
 module Service
   module Generators
-    class QueryGenerator < Rails::Generators::NamedBase
+    class EntityGenerator < Rails::Generators::NamedBase
       source_root File.expand_path('templates', __dir__)
 
-      argument :queries, type: :array, default: [], banner: 'query query'
+      argument :entities, type: :array, default: [], banner: 'entities entities'
 
       def setup
         invoke Service::Generators::SetupGenerator, [name]
       end
 
-      def create_queries
-        queries.each do |m|
-          @query = m.classify
+      def create_micros
+        entities.each do |m|
+          @entity = m.classify
 
-          path = "app/services/#{service_name}/queries/#{m.underscore}.rb"
-          template 'query.rb.erb', path
+          path = "app/services/#{service_name}/entities/#{m.underscore}.rb"
+          template 'entity.rb.erb', path
         end
       end
 

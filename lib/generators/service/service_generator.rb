@@ -4,7 +4,6 @@ require 'rubygems'
 require_relative './setup/setup_generator.rb'
 require_relative './usecase/usecase_generator.rb'
 require_relative './command/command_generator.rb'
-require_relative './test/test_generator.rb'
 require 'rails/generators'
 require 'rails/generators/model_helpers'
 
@@ -39,12 +38,6 @@ module Service
         return if options.skip_command?
 
         invoke Service::Generators::CommandGenerator, [name, usecases]
-      end
-
-      def generate_tests
-        return if options.skip_test?
-
-        invoke Service::Generators::TestGenerator, [name, usecases]
       end
     end
   end
