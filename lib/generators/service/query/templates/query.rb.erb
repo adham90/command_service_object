@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+module <%= service_name.classify %>::Queries
+  class <%= @query %> < QueryBase
+    # queries UserService::Models::User
+
+    # Example
+    # def query
+    #   map_rows(relation.where(phone: options.fetch(:phone)))
+    # end
+
+    private
+
+    # def map_rows(rows)
+    #   rows.map { |r| UserService::Views::User.new(r.as_json).to_hash }
+    # end
+
+    # def map_row(r)
+    #   UserService::Views::User.new(r.as_json).to_hash
+    # end
+  end
+end

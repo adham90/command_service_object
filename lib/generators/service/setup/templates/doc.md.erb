@@ -1,0 +1,39 @@
+## <%= service_name.classify %>
+The authorization system is responsible for identifying a particular user.
+
+### Database Tables
+- users
+- profiles
+
+### Entities:
+###### *Many objects are not fundamentally defined by their attributes, but rather by a thread of continuity and identity.*
+- User
+  - name: string
+  - email: string
+  - phone: string
+  - Profile:
+    - address: string
+    - foo: boolean
+    - bar: int
+
+### Usecases (Processes):
+###### *Use Cases focus on Users, Actions, and Processes.*
+- **[Login](login-uml-and-full-doc)** - the process for authorization, we write out to the user an authentication key for a month. Only a user with a verified phone and email address can authenticate.
+- **[Logout](logout-uml-and-full-doc)** - After logging out, the user will need to log in again to access the system.
+
+### Queries:
+- FindByEmail(email: string)
+- FindByName(name: string)
+
+### Listeners:
+###### *An event listener that waits for an event outside the service to occur.*
+- order_status
+
+### Externals:
+###### *Wrapper for any external interactions.*
+- **UserService**
+  - user_info(id: id)
+- **Stripe** - payment gateway wrapper.
+  - charge(pid, amount, currency)
+  - refund(charge_id)
+  - create_customer(email, phone, name)

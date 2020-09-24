@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+module <%= service_name.classify %>::Listeners
+  class <%= @listener %> < ListenerBase
+    consume 'channel name'
+
+    def process(message)
+      # Logic
+    end
+  end
+end

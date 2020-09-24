@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+module <%= service_name.classify %>::Externals
+  module <%= @external %>
+    extend self
+
+    # Example
+    # def balance(id)
+    #   res = http.get("user/:id")
+    #   res_as_json = JSON.parse(res.body)
+    #
+    #   The return value should only be OpenStruct or Hash Object
+    #   OpenStruct.new(user_id: res_as_json[:id], balance: res_as_json[:balance])
+    # end
+  end
+end

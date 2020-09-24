@@ -8,11 +8,15 @@ Rails Generator for command service object.
 
 ### Implementation
 
-Service consists of several objects { `Command Object` `Usecase Object`   And `Error Object` (business logic error) }.
+Service consists of several objects { `Command Object` `Usecase Object` And `Error Object` (business logic error) }.
 
-- **Command Object:** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
-- **Usecase Object:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
-- **Micros:** small reusable logic under the same service.
+- **[Command](https://en.wikipedia.org/wiki/Command_pattern):** the object that responsible for containing `Client` requests and run input validations it's implemented using [Virtus](https://github.com/solnic/virtus) gem and can use `activerecord` for validations and it's existed under `commands` dir.
+- **Usecase:** this object responsible for executing the business logic, Every `usecase` should execute one command type only so that command name should be the same as usecase object name, usecase object existed under 'usecases` dir.
+- **Micros:** Small reusable logic under the same service.
+- **Externals:** Simple ruby module works as a service interface whenever you wanna call any external service or even service that lives under the same project you should use it.
+- **Queries:** This dir is the only entry point for you to get any data form a service.
+- **Listeners:** An event listener that waits for an event outside the service to occur.
+- **Entities:** Many objects are not fundamentally defined by their attributes, but rather by a thread of continuity and identity.
 
 #### Result Object
 
@@ -56,8 +60,8 @@ output
 ```bash
 app/services/
 ├── application_service.rb
-├── external/
 ├── auth_service
+│   ├ external/
 │   ├── commands
 │   │   └── login.rb
 │   └── usecases
@@ -127,7 +131,14 @@ module AuthService::Usecases
     # methods for Business logic.
     #
     def call
-      token = generate_jwt_token_for(user)
+      token = generate_jwt_token_for(cmd.user)
+      replace_me
+
+      output
+    end
+
+    def output
+      # return entity object
     end
 
     # This method will run if call method raise error
@@ -161,16 +172,16 @@ You can wrap external apis or services under `external/` dir
 
 ```ruby
 module External
-  class StripeService
-    class << self
-      def charge(customer:, amount:, currency:, description: nil)
-        Stripe::Charge.create(
-          customer:    customer.id,
-          amount:      (round_up(amount, currency) * 100).to_i,
-          description: description || customer.email,
-          currency:    currency
-        )
-      end
+  module StripeService
+    extend self
+
+    def charge(customer:, amount:, currency:, description: nil)
+      Stripe::Charge.create(
+        customer:    customer.id,
+        amount:      (round_up(amount, currency) * 100).to_i,
+        description: description || customer.email,
+        currency:    currency
+      )
     end
   end
 end

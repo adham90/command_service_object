@@ -1,0 +1,8 @@
+Description:
+    This will generatet query_object under [service_name]/queries
+
+Example:
+    rails generate service:query [service name] [query name]
+
+    This will create:
+        services/[service_name]/queries/[query_name].rb

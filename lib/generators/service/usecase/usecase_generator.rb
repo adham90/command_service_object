@@ -12,12 +12,22 @@ module Service
 
         usecases.each do |u|
           @usecase = u.classify
-          path = "app/services/#{service_name}/usecases/#{u.underscore}.rb"
-          template 'usecase.rb.erb', path
+          create_main(u)
+          create_test(u)
         end
       end
 
       private
+
+      def create_main(m)
+        path = "app/services/#{service_name}/usecases/#{m.underscore}.rb"
+        template 'usecase.rb.erb', path unless options.skip_command?
+      end
+
+      def create_test(m)
+        path = "spec/services/#{service_name}/usecases/#{m.underscore}_spec.rb"
+        template 'usecase_spec.rb.erb', path
+      end
 
       def service_name
         "#{name.underscore}_service"

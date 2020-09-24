@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'hutch'
+
 class CaseBase
   include CommandServiceObject::Hooks
   include CommandServiceObject::FailureHelper

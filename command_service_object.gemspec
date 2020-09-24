@@ -40,4 +40,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'thor', '~> 0.20.3'
 
   spec.add_dependency 'virtus', '~> 1.0', '>= 1.0.5'
+  spec.add_dependency 'hutch', '1.0'
 end
