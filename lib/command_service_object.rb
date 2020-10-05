@@ -4,6 +4,7 @@ require 'command_service_object/failure'
 require 'command_service_object/helpers/model_helper'
 require 'command_service_object/helpers/controller_helper'
 require 'command_service_object/helpers/failure_helper'
+require 'command_service_object/helpers/check_helper'
 require 'command_service_object/hooks'
 require 'virtus'
 

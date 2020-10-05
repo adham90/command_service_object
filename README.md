@@ -18,13 +18,14 @@ Service consists of several objects { `Command Object` `Usecase Object` And `Err
 - **Listeners:** An event listener that waits for an event outside the service to occur.
 - **Entities:** Many objects are not fundamentally defined by their attributes, but rather by a thread of continuity and identity.
 
-#### Result Object
+### Result Object
 
 In case of successful or failure `ApplicationService` the responsible object for all services will return `service_result` object this object contain `value!` method containing successful call result, and `errors` method containing failure `errors` objects.
 
-#### Business Logic Failures
+### Helpers:
 
-To raise bussiness logic failures you can use `fail!` helper method with `message: String, extra_data: Hash` arguments.
+- Fail: You can use `fail!` helper to raise business logic failures, ex: `fail!('user should not have any active cards')`.
+- Check: To do business logic validations you can use `check!` helper ex: `check!('user should not have any active cards') { user.active_cards.empty? }`, if the given block returns false then it will raise fail! with the given message.
 
 > You can check if the result successful or not by using `ok?` method.
 

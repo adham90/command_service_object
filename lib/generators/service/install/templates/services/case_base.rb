@@ -5,6 +5,7 @@ require 'hutch'
 class CaseBase
   include CommandServiceObject::Hooks
   include CommandServiceObject::FailureHelper
+  include CommandServiceObject::CheckHelper
 
   attr_reader :cmd, :issuer, :right_name
   alias_attribute :payload, :cmd
