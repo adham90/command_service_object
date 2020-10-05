@@ -31,7 +31,7 @@ module <%= service_name.classify %>::Usecases
     end
 
     def broadcast
-      Hutch.publish('<%= "#{service_name}_#{@usecase.underscore}" %>', subject: {}, action: '<%= "#{@usecase.underscore}" %>')
+      Hutch.publish('<%= service_name %>', action: '<%= "#{@usecase.underscore}" %>', subject: {})
     end
 
     private
