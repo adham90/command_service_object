@@ -1,29 +1,33 @@
+require_relative '../helper'
+
 module Service
   module Generators
     class SetupGenerator < Rails::Generators::Base
       source_root File.expand_path('templates', __dir__)
 
+      DIRS = %w(listeners jobs externals queries usecases commands entities usecases/micros)
+
       def setup
-        return if File.exist?("app/services/#{service_name}")
+        DIRS.each do |dir|
+          empty_directory("#{service_path}/#{dir}")
+        end
 
-        empty_directory("app/services/#{service_name}")
-        empty_directory("app/services/#{service_name}/listeners")
-        empty_directory("app/services/#{service_name}/jobs")
-        empty_directory("app/services/#{service_name}/externals")
-        empty_directory("app/services/#{service_name}/queries")
-        empty_directory("app/services/#{service_name}/usecases")
-        empty_directory("app/services/#{service_name}/commands")
-        empty_directory("app/services/#{service_name}/entities")
-        empty_directory("app/services/#{service_name}/usecases/micros")
-
-        path = "app/services/#{service_name}/doc.md"
+        path = "#{service_path}/doc.md"
         template 'doc.md.erb', path unless File.exist?(path)
       end
 
       private
 
       def service_name
-        "#{args.first.underscore}_service"
+        Service::Helper.service_name(args.first)
+      end
+
+      def service_path
+        Service::Helper.service_path(args.first)
+      end
+
+      def spec_path
+        Service::Helper.spec_path(args.first)
       end
     end
   end

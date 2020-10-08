@@ -1,4 +1,5 @@
 require_relative '../setup/setup_generator.rb'
+require_relative '../helper'
 
 module Service
   module Generators
@@ -15,7 +16,7 @@ module Service
         listeners.each do |m|
           @listener = m.classify
 
-          path = "app/services/#{service_name}/listeners/#{m.underscore}.rb"
+          path = "#{service_path}/listeners/#{m.underscore}.rb"
           template 'listener.rb.erb', path
         end
       end
@@ -23,7 +24,15 @@ module Service
       private
 
       def service_name
-        "#{name.underscore}_service"
+        Service::Helper.service_name(name)
+      end
+
+      def service_path
+        Service::Helper.service_path(name)
+      end
+
+      def spec_path
+        Service::Helper.spec_path(name)
       end
     end
   end

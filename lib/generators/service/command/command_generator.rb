@@ -1,4 +1,5 @@
 require_relative '../setup/setup_generator.rb'
+require_relative '../helper'
 
 module Service
   module Generators
@@ -23,17 +24,25 @@ module Service
       private
 
       def create_main(m)
-        path = "app/services/#{service_name}/commands/#{m.underscore}.rb"
+        path = "#{service_path}/commands/#{m.underscore}.rb"
         template 'command.rb.erb', path unless options.skip_command?
       end
 
       def create_test(m)
-        path = "spec/services/#{service_name}/commands/#{m.underscore}_spec.rb"
+        path = "#{spec_path}/commands/#{m.underscore}_spec.rb"
         template 'command_spec.rb.erb', path
       end
 
       def service_name
-        "#{name.underscore}_service"
+        Service::Helper.service_name(name)
+      end
+
+      def service_path
+        Service::Helper.service_path(name)
+      end
+
+      def spec_path
+        Service::Helper.spec_path(name)
       end
     end
   end

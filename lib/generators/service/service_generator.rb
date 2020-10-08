@@ -6,6 +6,7 @@ require_relative './usecase/usecase_generator.rb'
 require_relative './command/command_generator.rb'
 require 'rails/generators'
 require 'rails/generators/model_helpers'
+require_relative './helper.rb'
 
 module Service
   module Generators
@@ -38,6 +39,20 @@ module Service
         return if options.skip_command?
 
         invoke Service::Generators::CommandGenerator, [name, usecases]
+      end
+
+      private
+
+      def service_name
+        Service::Helper.service_name(name)
+      end
+
+      def service_path
+        Service::Helper.service_path(name)
+      end
+
+      def spec_path
+        Service::Helper.spec_path(name)
       end
     end
   end

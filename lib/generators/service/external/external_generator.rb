@@ -1,4 +1,5 @@
 require_relative '../setup/setup_generator.rb'
+require_relative '../helper'
 
 module Service
   module Generators
@@ -20,17 +21,25 @@ module Service
       private
 
       def create_main(m)
-        path = "app/services/#{service_name}/externals/#{m.underscore}.rb"
+        path = "#{service_path}/externals/#{m.underscore}.rb"
         template 'external.rb.erb', path
       end
 
       def create_test(m)
-        path = "spec/services/#{service_name}/externals/#{m.underscore}_spec.rb"
+        path = "#{spec_path}/externals/#{m.underscore}_spec.rb"
         template 'external_spec.rb.erb', path
       end
 
       def service_name
-        "#{name.underscore}_service"
+        Service::Helper.service_name(name)
+      end
+
+      def service_path
+        Service::Helper.service_path(name)
+      end
+
+      def spec_path
+        Service::Helper.spec_path(name)
       end
     end
   end
