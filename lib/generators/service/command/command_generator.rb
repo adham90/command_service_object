@@ -25,7 +25,7 @@ module Service
 
       def create_main(m)
         path = "#{service_path}/commands/#{m.underscore}.rb"
-        template 'command.rb.erb', path unless options.skip_command?
+        template 'command.rb.erb', path
       end
 
       def create_test(m)

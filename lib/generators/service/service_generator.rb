@@ -13,12 +13,6 @@ module Service
     class ServiceGenerator < Rails::Generators::NamedBase
       argument :usecases, type: :array, default: [], banner: 'usecase usecase'
 
-      # Skiping options
-      class_option :skip_usecase, type: :boolean, default: false, aliases: '-U'
-      class_option :skip_command, type: :boolean, default: false, aliases: '-C'
-      class_option :skip_entity,  type: :boolean, default: false, aliases: '-E'
-      class_option :skip_test,    type: :boolean, default: false, aliases: '-T'
-
       def install_if_not
         return if File.exist?('app/services')
 
@@ -30,14 +24,10 @@ module Service
       end
 
       def generate_usecases
-        return if options.skip_usecase?
-
         invoke Service::Generators::UsecaseGenerator, [name, usecases]
       end
 
       def generate_commands
-        return if options.skip_command?
-
         invoke Service::Generators::CommandGenerator, [name, usecases]
       end
 

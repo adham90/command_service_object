@@ -3,31 +3,25 @@ require_relative '../helper'
 
 module Service
   module Generators
-    class UsecaseGenerator < Rails::Generators::NamedBase
+    class ValueObjectGenerator < Rails::Generators::NamedBase
       source_root File.expand_path('templates', __dir__)
 
-      argument :usecases, type: :array, default: [], banner: 'usecase usecase'
+      argument :value_objects, type: :array, default: [], banner: 'value_object value_object'
 
       def call
         invoke Service::Generators::SetupGenerator, [name]
 
-        usecases.each do |u|
-          @usecase = u.classify
+        value_objects.each do |u|
+          @value_object = u.classify
           create_main(u)
-          create_test(u)
         end
       end
 
       private
 
       def create_main(m)
-        path = "#{service_path}/usecases/#{m.underscore}.rb"
-        template 'usecase.rb.erb', path
-      end
-
-      def create_test(m)
-        path = "#{spec_path}/usecases/#{m.underscore}_spec.rb"
-        template 'usecase_spec.rb.erb', path
+        path = "#{service_path}/value_objects/#{m.underscore}.rb"
+        template 'value_object.rb.erb', path
       end
 
       def service_name
