@@ -1,3 +1,3 @@
 module CommandServiceObject
-  VERSION = '1.1.1'.freeze
+  VERSION = '1.2.1'.freeze
 end
