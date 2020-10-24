@@ -8,10 +8,6 @@ module Service
 
       argument :listeners, type: :array, default: [], banner: 'Listener Listener'
 
-      def setup
-        invoke Service::Generators::SetupGenerator, [name]
-      end
-
       def create_micros
         listeners.each do |m|
           @listener = m.classify

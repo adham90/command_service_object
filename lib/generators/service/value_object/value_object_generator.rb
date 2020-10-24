@@ -9,8 +9,6 @@ module Service
       argument :value_objects, type: :array, default: [], banner: 'value_object value_object'
 
       def call
-        invoke Service::Generators::SetupGenerator, [name]
-
         value_objects.each do |u|
           @value_object = u.classify
           create_main(u)

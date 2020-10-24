@@ -11,7 +11,6 @@ module Service
       argument :commands, type: :array, default: [], banner: 'command command'
 
       def call
-        invoke Service::Generators::SetupGenerator, [name]
         @model_attributes = model_attributes
 
         commands.each do |c|

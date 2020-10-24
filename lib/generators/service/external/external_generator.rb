@@ -9,8 +9,6 @@ module Service
       argument :externals, type: :array, default: [], banner: 'external external'
 
       def create_externals
-        invoke Service::Generators::SetupGenerator, [name]
-
         externals.each do |m|
           @external = m.classify
           create_main(m)

@@ -8,10 +8,6 @@ module Service
 
       argument :micros, type: :array, default: [], banner: 'micros micros'
 
-      def setup
-        invoke Service::Generators::SetupGenerator, [name]
-      end
-
       def create_micros
         micros.each do |m|
           @micro = m.classify

@@ -55,10 +55,12 @@ module CommandServiceObject
       end
 
       def micros(*names)
-        service = to_s.split('::').first
+        service = to_s.split('::')
+        service.pop
 
         names.each do |name|
-          obj = "#{service}/Usecases/Micros/#{name}".camelize.constantize
+          obj = "#{service.join('/')}/micros/#{name}".camelize.constantize
+
           _micros.add(obj)
         end
       end

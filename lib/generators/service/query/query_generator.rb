@@ -8,10 +8,6 @@ module Service
 
       argument :queries, type: :array, default: [], banner: 'query query'
 
-      def setup
-        invoke Service::Generators::SetupGenerator, [name]
-      end
-
       def create_queries
         queries.each do |m|
           @query = m.classify

@@ -8,10 +8,6 @@ module Service
 
       argument :entities, type: :array, default: [], banner: 'entities entities'
 
-      def setup
-        invoke Service::Generators::SetupGenerator, [name]
-      end
-
       def create_micros
         entities.each do |m|
           @entity = m.classify

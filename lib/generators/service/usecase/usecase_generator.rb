@@ -9,8 +9,6 @@ module Service
       argument :usecases, type: :array, default: [], banner: 'usecase usecase'
 
       def call
-        invoke Service::Generators::SetupGenerator, [name]
-
         usecases.each do |u|
           @usecase = u.classify
           create_main(u)
