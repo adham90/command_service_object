@@ -2,10 +2,10 @@
 
 class CommandBase
   include ActiveModel::Validations
-  include Virtus.model(nullify_blank: true)
+  include Virtus.model
 
   # if you need to enable policies add issuer attribute
-  attribute :issuer, Object, default: :default_issuer
+  attribute :issuer, Issuer, default: :default_issuer
 
   private
 

@@ -7,33 +7,37 @@ class ApplicationService
     def call(cmd)
       @cmd = cmd
       @bm = Benchmark.measure do
-        raise Errors::InvalidCommand, cmd.class if cmd.invalid?
+        raise Errors::InvalidCommand if cmd.invalid?
 
         @usecase = usecase_class.new(cmd)
-        raise Errors::NotAuthorizedError, cmd.class unless usecase.allowed?
+
+        raise Errors::NotAuthorizedError unless usecase.allowed?
 
         @result = ServiceResult.new { usecase.call }
 
         rollback if result.error.present?
+        usecase.broadcast if result.ok?
       end
 
       log_command
       result
     rescue StandardError => e
-      ServiceResult.new { raise e }      
+      ServiceResult.new { raise e }
     end
 
     def rollback
       usecase.rollback_micros
       usecase.rollback
-      log_errors(result.error)
     end
 
     private
 
     def log_command
-      service_logger = ActiveSupport::Logger.new(Rails.root.join('log', 'services.log').to_s)
-      service_logger.formatter = proc do |severity, datetime, progname, msg|
+      FileUtils.mkdir_p 'log/services'
+      service_logger = ActiveSupport::Logger.new(
+        Rails.root.join('log', 'services', "#{service_name.underscore}.log").to_s, 'daily'
+      )
+      service_logger.formatter = proc do |_severity, datetime, _progname, msg|
         "[#{msg['usecase']}] [#{msg['status']}] [#{datetime.to_s(:db)} ##{Process.pid}] -- #{msg['body']}\n"
       end
       log_body = result.ok? ? success_log : failure_log
@@ -46,10 +50,10 @@ class ApplicationService
         usecase: "#{service_name}::#{usecase_name}",
         status: 'success',
         body: {
-            cmd: cmd.as_json,
-            result: result.value!.as_json,
-            benchmark: bm.as_json
-          }
+          cmd: cmd.as_json,
+          result: result.value!.as_json,
+          benchmark: bm.as_json
+        }
       }.as_json
     end
 
@@ -77,4 +81,14 @@ class ApplicationService
       cmd.class.name.split('::').last
     end
   end
+end
+
+module Errors
+  class NotAuthorizedError < StandardError
+    def initialize(msg: 'not allowd')
+      super(msg)
+    end
+  end
+
+  class InvalidCommand < StandardError; end
 end

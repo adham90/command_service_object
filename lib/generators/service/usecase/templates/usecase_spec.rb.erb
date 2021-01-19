@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-describe <%= service_name.classify %>::Usecases::<%= @test %> do
-  let(:cmd) { <%= service_name.classify %>::Commands::<%= @test %>.new(cmd_params) }
+describe <%= service_name.classify %>::Usecases::<%= @usecase %> do
+  let(:cmd) { <%= service_name.classify %>::Commands::<%= @usecase %>.new(cmd_params) }
   let(:cmd_default_params) {{ name: 'test_name' }}
 
-  context "when success" do
-    let(:cmd_params) { cmd_default_params.merge!({ name: 'valid_name' }) }
+  context 'when success' do
+    let(:cmd_params) { cmd_default_params }
     let!(:result) { ApplicationService.call(cmd) }
 
     it 'should be okay?' do

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    command_service_object (1.1.0)
+    command_service_object (1.4.0)
       hutch (~> 1.0)
       virtus (~> 1.0, >= 1.0.5)
 
